@@ -25,7 +25,7 @@
     </repository>
     <repository>
       <id>sk89q-mvn2</id>
-      <url>http://mvn2.sk89q.com/repo</url>
+      <url>http://maven.sk89q.com/artifactory/repo</url>
     </repository>
     <repository>
       <id>vault-repo</id>
@@ -34,10 +34,20 @@
     <repository>
       <id>Tabinol.me Artifactory</id>
       <name>Tabinol.me Artifactory-releases</name>
-      <url>http://artifactory.tabinol.me/artifactory/public</url>
+      <url>http://nexus.tabinol.me/content/groups/public/</url>
+    </repository>
+    <repository>
+      <id>bukkit-repo</id>
+      <url>http://repo.bukkit.org/content/groups/public/</url>
     </repository>
   </repositories>
   <dependencies>
+    <dependency>
+      <groupId>org.bukkit</groupId>
+      <artifactId>bukkit</artifactId>
+      <version>1.7.9-R0.2</version>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>org.tyrannyofheaven.bukkit</groupId>
       <artifactId>ToHPluginUtils</artifactId>
@@ -46,7 +56,7 @@
     <dependency>
       <groupId>com.sk89q</groupId>
       <artifactId>worldguard</artifactId>
-      <version>5.9</version>
+      <version>5.9.1-SNAPSHOT</version>
       <exclusions>
         <exclusion>
           <artifactId>iconomy</artifactId>
@@ -103,7 +113,7 @@
     <dependency>
       <groupId>me.tabinol.factoid</groupId>
       <artifactId>Factoid</artifactId>
-      <version>0.3</version>
+      <version>1.0.1</version>
 	</dependency>
     <dependency>
       <groupId>net.milkbowl.vault</groupId>
@@ -189,30 +199,6 @@
       </build>
     </profile>
     <profile>
-      <id>buildNumber</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>buildnumber-maven-plugin</artifactId>
-            <version>1.0</version>
-            <executions>
-              <execution>
-                <phase>validate</phase>
-                <goals>
-                  <goal>create</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <doCheck>false</doCheck>
-              <doUpdate>false</doUpdate>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
       <id>unknownBuildNumber</id>
       <activation>
         <activeByDefault>true</activeByDefault>
@@ -220,73 +206,6 @@
       <properties>
         <buildNumber>unknown</buildNumber>
       </properties>
-    </profile>
-    <profile>
-      <id>standalone</id>
-      <build>
-	<plugins>
-	  <plugin>
-	    <groupId>org.apache.maven.plugins</groupId>
-	    <artifactId>maven-shade-plugin</artifactId>
-	    <version>1.5</version>
-	    <executions>
-	      <execution>
-		<phase>package</phase>
-		<goals>
-		  <goal>shade</goal>
-		</goals>
-		<configuration>
-		  <artifactSet>
-		    <includes>
-		      <include>org.tyrannyofheaven.bukkit:ToHPluginUtils</include>
-		    </includes>
-		  </artifactSet>
-		  <relocations>
-		    <relocation>
-		      <pattern>org.tyrannyofheaven.bukkit.util</pattern>
-		      <shadedPattern>org.tyrannyofheaven.bukkit.zPermissions.util</shadedPattern>
-		    </relocation>
-		  </relocations>
-		</configuration>
-	      </execution>
-	    </executions>
-	  </plugin>
-	  <!--
-	  <plugin>
-	    <groupId>com.github.wvengen</groupId>
-	    <artifactId>proguard-maven-plugin</artifactId>
-	    <version>2.0.5</version>
-	    <executions>
-	      <execution>
-		<phase>package</phase>
-		<goals>
-		  <goal>proguard</goal>
-		</goals>
-	      </execution>
-	    </executions>
-	    <configuration>
-	      <options>
-		<option>-dontobfuscate</option>
-		<option>-keepattributes SourceFile,LineNumberTable</option>
-		<option>-keepattributes Signature,*Annotation*</option>
-		<option>-keep @javax.persistence.Entity class * { *; }</option>
-		<option>-keepclassmembers class * { @org.tyrannyofheaven.bukkit.util.command.Command *; }</option>
-		<option>-keep public class * extends org.bukkit.plugin.java.JavaPlugin</option>
-	      </options>
-	      <libs>
-		<lib>${java.home}/../Classes/classes.jar</lib>
-	      </libs>
-	      <exclusions>
-		<exclusion>
-		  <groupId>org.tyrannyofheaven.bukkit</groupId>
-		  <artifactId>ToHPluginUtils</artifactId>
-		</exclusion>
-	      </exclusions>
-	    </configuration>
-	  </plugin>
-	  -->
-	</plugins>
-      </build>
     </profile>
   </profiles>
 </project>
